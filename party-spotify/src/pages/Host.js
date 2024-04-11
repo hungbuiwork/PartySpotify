@@ -5,6 +5,8 @@ import { FaFastBackward, FaFastForward, FaPause, FaPlay } from "react-icons/fa";
 
 export const Host = () => {
   const location = useLocation();
+  const [tokenRefreshTime, setTokenRefreshTie] = useState(Date.now());
+
   const [accessToken, setAccessToken] = useState("");
   const [currentSong, setCurrentSong] = useState("");
   const [myInfo, setMyInfo] = useState("");
@@ -12,6 +14,7 @@ export const Host = () => {
   const [currentQueue, setCurrentQueue] = useState([]);
   const [deviceID, setDeviceID] = useState("");
 
+  // GET ACCESS TOKEN
   useEffect(() => {
     const params = new URLSearchParams(location.hash.substring(1));
     const token = params.get("access_token");
@@ -22,6 +25,14 @@ export const Host = () => {
     }
     setAccessToken(token);
   }, [location]);
+
+//   //REFRESH ACCESS TOKEN IF NEEDED
+//   const refreshToken = () => {
+//     const CLIENT_ID = "1e38d15cb1a84430a78653561e1852cb";
+//     const REFRESH_ENDPOINT = "https://accounts.spotify.com/api/token";
+
+//     fetch(`${REFRESH_ENDPOINT}?grant_type=refresh_token?`)
+//   }
 
   useEffect(() => {
     if (accessToken == "") return;
@@ -67,7 +78,6 @@ export const Host = () => {
     return () => clearInterval(intervalId);
   }, [accessToken]);
 
-
   useEffect(() => {
     const cacheDevice = async () => {
       if (accessToken == "") return;
@@ -84,14 +94,14 @@ export const Host = () => {
           return response.json();
         })
         .then((jsonData) => {
-            if (jsonData?.device?.id){
-                setDeviceID(jsonData.device.id)
-            }
+          if (jsonData?.device?.id) {
+            setDeviceID(jsonData.device.id);
+          }
         });
     };
 
     cacheDevice();
-    console.log("DEVICE:", deviceID)
+    console.log("DEVICE:", deviceID);
     const intervalId2 = setInterval(() => {
       cacheDevice();
     }, 1000);
@@ -171,6 +181,22 @@ export const Host = () => {
     setIsPlaying(true);
   };
 
+  const seek = (event) => {
+    if (accessToken == "") return;
+    fetch(
+      `https://api.spotify.com/v1/me/player/seek?position_ms=${parseInt(
+        (event.target.value / event.target.max) * currentSong?.item?.duration_ms
+      )}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    setIsPlaying(true);
+  };
+
   return (
     <div className=" font-bold bg-[#0c0d14]">
       {/* <div className=" absolute m-4">
@@ -178,13 +204,18 @@ export const Host = () => {
         <img src={myInfo?.images?.[0].url} className=" h-32 w-32"></img>
       </div> */}
       <div className=" absolute w-[100vw] h-[100vh] flex">
+        {/* Background Image */}
         <img
           src={currentSong?.item?.album?.images?.[0]?.url}
           className=" m-4"
         ></img>
+
       </div>
+
       <div className=" h-[100vh] flex flex-col justify-center">
         <div className=" flex  justify-center bg-gradient-to-r from-[#1DB954]/60 to-[#0c0d14]/0 p-12 mx-32 rounded-2xl backdrop-blur-md">
+          
+          {/* ---------SONG INFO---------- */}
           <div className="  w-[60vh]">
             {currentSong?.item?.album?.images?.[0] ? (
               <img
@@ -195,24 +226,40 @@ export const Host = () => {
               <div className=" skeleton h-[60vh] w-full"></div>
             )}
 
-            {currentSong?.item?.name && (
+            {currentSong?.item?.name ? (
               <h1 className="  text-white text-3xl font-medium">
                 {currentSong?.item?.name}
+              </h1>
+            ) : (
+              <h1 className="  text-white text-3xl font-medium">
+                No song playing ...
               </h1>
             )}
             <h2 className="  text-white text-xl font-thin">
               {currentSong?.item?.artists.map((a) => a?.name).join(", ")}
             </h2>
-            <progress
-              className="progress progress-success w-full"
-              value={
-                ((currentSong?.progress_ms || 0) * 100) /
-                currentSong?.item?.duration_ms
-              }
-              max="100"
-            ></progress>
+            <div className=" relative">
+              <progress
+                className="progress progress-accent w-full"
+                value={
+                  ((currentSong?.progress_ms || 0) * 100) /
+                  currentSong?.item?.duration_ms
+                }
+                max="100"
+              ></progress>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                className="range range-xs range-success h-1 absolute my-auto left-0 top-3 opacity-0"
+                onMouseUp={seek}
+              />
+            </div>
+
             <div className=" flex justify-center">
-            <button onClick={prev} className=" p-4 text-white text-3xl"><FaFastBackward></FaFastBackward></button>
+              <button onClick={prev} className=" p-4 text-white text-3xl">
+                <FaFastBackward></FaFastBackward>
+              </button>
               {isPlaying ? (
                 <button onClick={pause} className=" p-4 text-white text-3xl">
                   <FaPause></FaPause>
@@ -222,17 +269,20 @@ export const Host = () => {
                   <FaPlay></FaPlay>
                 </button>
               )}
-              <button onClick={next} className=" p-4 text-white text-3xl"><FaFastForward></FaFastForward></button>
+              <button onClick={next} className=" p-4 text-white text-3xl">
+                <FaFastForward></FaFastForward>
+              </button>
             </div>
           </div>
 
-          <div className=" ml-4">
-            <h1 className=" text-white text-3xl font-bold mb-2 underline">
+              {/* ------- QUEUE INFO ------- */}
+          <div className=" ml-4  w-64 max-h-[80vh] p-2 rounded-xl ">
+            <h1 className=" text-white text-3xl font-bold mb-2 ">
               Up next ...
             </h1>
             {currentQueue?.queue?.map((song, i) => {
               return (
-                <p className=" text-white text-sm font-md">
+                <p className=" text-white text-sm font-light relative  hover:font-bold duration-200">
                   {i}. {song.name}
                 </p>
               );

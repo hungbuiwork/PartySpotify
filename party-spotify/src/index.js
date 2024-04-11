@@ -8,6 +8,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Host } from "./pages/Host";
 import { Login } from "./pages/Login";
 import { Queue } from "./pages/Queue";
+import { Callback } from "./pages/Callback";
+
 
 const router = createBrowserRouter([
   {
@@ -16,6 +18,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/callback/",
+    element: <Host></Host>,
+  },
+  {
+    path: "/home/",
     element: <Host></Host>,
   },
   {
