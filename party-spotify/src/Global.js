@@ -1,0 +1,1 @@
+export const host_name = window.location.protocol + "//" + window.location.host;

@@ -9,30 +9,15 @@ import { Host } from "./pages/Host";
 import { Login } from "./pages/Login";
 import { Queue } from "./pages/Queue";
 import { Callback } from "./pages/Callback";
+import { host_name } from "./Global";
 
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Login></Login>,
-  },
-  {
-    path: "/callback/",
-    element: <Host></Host>,
-  },
-  {
-    path: "/home/",
-    element: <Host></Host>,
-  },
-  {
-    path: "/queue/",
-    element: <Queue></Queue>,
-  },
-]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <RouterProvider router = {router}></RouterProvider>
+  <React.StrictMode>
+    <Host></Host>
+</React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

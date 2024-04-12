@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import QRCode from "qrcode.react";
 import { FaFastBackward, FaFastForward, FaPause, FaPlay } from "react-icons/fa";
+import { Login } from "./Login";
+import { Queue } from "./Queue";
+import { host_name } from "../Global";
 
 export const Host = () => {
-  const location = useLocation();
-  const [tokenRefreshTime, setTokenRefreshTie] = useState(Date.now());
-
+  const location = window.location;
+  const [queueMode, setQueueMode] = useState(false);
   const [accessToken, setAccessToken] = useState("");
   const [currentSong, setCurrentSong] = useState("");
   const [myInfo, setMyInfo] = useState("");
@@ -18,21 +19,27 @@ export const Host = () => {
   useEffect(() => {
     const params = new URLSearchParams(location.hash.substring(1));
     const token = params.get("access_token");
-    console.log(token);
     if (!token) {
-      setAccessToken("No access token");
-      return;
+      setAccessToken("");
+    } else {
+      setAccessToken(token);
     }
-    setAccessToken(token);
+
+    const queue = params.get("queue_mode");
+    if (!queue) {
+      setQueueMode(false);
+    } else {
+      setQueueMode(true);
+    }
   }, [location]);
 
-//   //REFRESH ACCESS TOKEN IF NEEDED
-//   const refreshToken = () => {
-//     const CLIENT_ID = "1e38d15cb1a84430a78653561e1852cb";
-//     const REFRESH_ENDPOINT = "https://accounts.spotify.com/api/token";
+  //   //REFRESH ACCESS TOKEN IF NEEDED
+  //   const refreshToken = () => {
+  //     const CLIENT_ID = "1e38d15cb1a84430a78653561e1852cb";
+  //     const REFRESH_ENDPOINT = "https://accounts.spotify.com/api/token";
 
-//     fetch(`${REFRESH_ENDPOINT}?grant_type=refresh_token?`)
-//   }
+  //     fetch(`${REFRESH_ENDPOINT}?grant_type=refresh_token?`)
+  //   }
 
   useEffect(() => {
     if (accessToken == "") return;
@@ -197,24 +204,30 @@ export const Host = () => {
     setIsPlaying(true);
   };
 
+  if (accessToken == "") {
+    return <Login></Login>;
+  }
+  else if (queueMode == true){
+    return <Queue></Queue>
+  }
+
   return (
     <div className=" font-bold bg-[#0c0d14]">
       {/* <div className=" absolute m-4">
         <h1>{myInfo?.display_name}</h1>
         <img src={myInfo?.images?.[0].url} className=" h-32 w-32"></img>
       </div> */}
+
       <div className=" absolute w-[100vw] h-[100vh] flex">
         {/* Background Image */}
         <img
           src={currentSong?.item?.album?.images?.[0]?.url}
           className=" m-4"
         ></img>
-
       </div>
 
       <div className=" h-[100vh] flex flex-col justify-center">
         <div className=" flex  justify-center bg-gradient-to-r from-[#1DB954]/60 to-[#0c0d14]/0 p-12 mx-32 rounded-2xl backdrop-blur-md">
-          
           {/* ---------SONG INFO---------- */}
           <div className="  w-[60vh]">
             {currentSong?.item?.album?.images?.[0] ? (
@@ -275,7 +288,7 @@ export const Host = () => {
             </div>
           </div>
 
-              {/* ------- QUEUE INFO ------- */}
+          {/* ------- QUEUE INFO ------- */}
           <div className=" ml-4  w-64 max-h-[80vh] p-2 rounded-xl ">
             <h1 className=" text-white text-3xl font-bold mb-2 ">
               Up next ...
@@ -291,7 +304,7 @@ export const Host = () => {
           <div className=" w-96 h-full flex flex-col justify-center items-center">
             <div className=" border-8 border-white rounded-md">
               <QRCode
-                value={`http://localhost:3000/queue/#access_token=${accessToken}`}
+                value={`${host_name + window.location.pathname}#access_token=${accessToken}&queue_mode=true`}
                 className=" border-12 border-white "
                 size={256}
               ></QRCode>

@@ -1,8 +1,11 @@
 import React from "react";
+import { host_name } from "../Global";
 
 export const Login = () => {
+const location = window.location;
+console.log("LOCATION", location)
   const CLIENT_ID = "1e38d15cb1a84430a78653561e1852cb";
-  const REDIRECT_URI = "http://localhost:3000/callback/";
+  const REDIRECT_URI = host_name + window.location.pathname;
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPE = ["user-read-currently-playing","user-read-playback-state", "user-modify-playback-state"];

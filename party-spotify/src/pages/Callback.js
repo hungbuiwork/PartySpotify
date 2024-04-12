@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 export const Callback = () => {
-    //DOES NOT WORK FOR NOW
+    //DOES NOT WORK FOR NOW! THIS IS FOR SLIENT SECRET STUFF TOO
   const location = useLocation();
 
   useEffect(() => {
