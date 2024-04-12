@@ -246,9 +246,11 @@ export const Host = () => {
                 {currentSong?.item?.name}
               </h1>
             ) : (
+              <div>
               <h1 className="  text-white text-3xl font-medium">
-                No song playing ...
+                No song playing ... 
               </h1>
+              <h2 className="text-white text-xl font-thin">Try pressing play on your Spotify App, or Re-login to Partyify!</h2></div>
             )}
             <h2 className="  text-white text-xl font-thin">
               {currentSong?.item?.artists.map((a) => a?.name).join(", ")}
