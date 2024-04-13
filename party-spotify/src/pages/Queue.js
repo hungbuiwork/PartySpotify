@@ -108,7 +108,7 @@ export const Queue = () => {
               </span>
             }
             <div
-              className={`border-0 overflow-hidden duration-200 my-2  border-white h-24 rounded-md flex items-center ${
+              className={`border-0 overflow-hidden duration-200 my-2 text-[#c0bdd0]  border-white h-24 rounded-md flex items-center ${
                 queuedSongs.includes(i)
                   ? "bg-[#1DB954]/50 text-white"
                   : "bg-[#191c28] hover:bg-[#202433] hover:text-white"
