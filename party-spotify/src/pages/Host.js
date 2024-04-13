@@ -238,7 +238,7 @@ export const Host = () => {
           <h1 className=" text-white text-3xl font-bold  my-2 lg:hidden">
             Party<span className=" text-[#1DB954] font-extrabold">ify</span>
           </h1>
-          <h1 className="text-[#1DB954] text-xl font-thin right-4 lg:hidden text-right self-center">
+          <h1 className="text-[#1DB954] text-sm font-thin right-4 lg:hidden text-right self-center">
             Connected to 
             <span className=" font-bold"> {myInfo?.display_name}</span>
           </h1>
@@ -337,7 +337,7 @@ export const Host = () => {
               );
             })}
           </div>
-          <div className=" w-96 h-full flex flex-col justify-center items-center">
+          <div className=" lg:w-96 h-full flex flex-col justify-center items-center ">
             <a
               className=" border-8 relative bottom-0 hover:bottom-2 duration-200 border-white rounded-md mt-4 mx-4 "
               target="_blank"
