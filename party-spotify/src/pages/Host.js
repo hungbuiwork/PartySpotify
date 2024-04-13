@@ -73,7 +73,7 @@ export const Host = () => {
         })
         .then((jsonData) => {
           setCurrentSong(jsonData);
-          // setIsPlaying(jsonData?.is_playing);
+          setIsPlaying(jsonData?.is_playing);
         });
     };
 
@@ -152,7 +152,7 @@ export const Host = () => {
         "Content-Type": "application/json",
       },
     });
-    setIsPlaying(true);
+    //setIsPlaying(true);
   };
 
   const pause = () => {
@@ -205,9 +205,8 @@ export const Host = () => {
 
   if (accessToken == "") {
     return <Login></Login>;
-  }
-  else if (queueMode == true){
-    return <Queue></Queue>
+  } else if (queueMode == true) {
+    return <Queue></Queue>;
   }
 
   return (
@@ -217,19 +216,34 @@ export const Host = () => {
         <img src={myInfo?.images?.[0].url} className=" h-32 w-32"></img>
       </div> */}
 
-      <div className=" absolute w-[100vw] h-[100vh] hidden lg:flex justify-between">
+      <div className=" absolute w-[100vw] h-[100vh] hidden lg:flex justify-between p-4">
         {/* Background Image */}
         <img
           src={currentSong?.item?.album?.images?.[0]?.url}
-          className="m-4"
+          className=""
         ></img>
-             <h1 className=" text-white text-4xl font-bold right-4 mt-4 mr-8">Party<span className=" text-[#1DB954] font-extrabold">ify</span></h1>
+        <div className=" flex flex-col justify-between">
+          <h1 className=" text-white text-4xl font-bold right-4 mr-8 hidden lg:inline text-right">
+            Party<span className=" text-[#1DB954] font-extrabold ">ify</span>
+          </h1>
+          <h1 className="text-[#1DB954] text-xl font-thin right-4 mr-8 hidden lg:inline text-right">
+            Connected to{" "}
+            <span className=" font-bold">{myInfo?.display_name}</span>
+          </h1>
+        </div>
       </div>
 
-
-      <div className=" lg:h-[100vh] flex flex-col justify-center">
-      <h1 className=" text-white text-3xl font-bold right-4 mt-4 ml-12 my-2">Party<span className=" text-[#1DB954] font-extrabold">ify</span></h1>
-        <div className=" flex flex-col lg:flex-row justify-center bg-gradient-to-b lg:bg-gradient-to-r from-[#1DB954]/60 to-[#0c0d14]/0 p-6 lg:p-12 mx-12 lg:mx-32 rounded-2xl backdrop-blur-md">
+      <div className=" lg:h-[100vh] flex flex-col justify-center border-2 lg:py-4">
+        <div className=" flex justify-between px-12">
+          <h1 className=" text-white text-3xl font-bold  my-2 lg:hidden">
+            Party<span className=" text-[#1DB954] font-extrabold">ify</span>
+          </h1>
+          <h1 className="text-[#1DB954] text-xl font-thin right-4 lg:hidden text-right self-center">
+            Connected to 
+            <span className=" font-bold"> {myInfo?.display_name}</span>
+          </h1>
+        </div>
+        <div className=" flex flex-col lg:flex-row justify-center bg-gradient-to-b lg:bg-gradient-to-r from-[#1DB954]/60 to-transparent p-6 lg:p-12 mx-12 lg:mx-32  rounded-2xl backdrop-blur-md">
           {/* ---------SONG INFO---------- */}
           <div className="  lg:w-[60vh]">
             {currentSong?.item?.album?.images?.[0] ? (
@@ -247,10 +261,14 @@ export const Host = () => {
               </h1>
             ) : (
               <div>
-              <h1 className="  text-white text-3xl font-medium">
-                No song playing ... 
-              </h1>
-              <h2 className="text-white text-xl font-thin">Try pressing play on your Spotify App, or Re-login to Partyify!</h2></div>
+                <h1 className="  text-white text-3xl font-medium">
+                  No song playing ...
+                </h1>
+                <h2 className="text-white text-xl font-thin">
+                  Try pressing play on your Spotify App, or Re-login to
+                  Partyify!
+                </h2>
+              </div>
             )}
             <h2 className="  text-white text-xl font-thin">
               {currentSong?.item?.artists.map((a) => a?.name).join(", ")}
@@ -274,29 +292,43 @@ export const Host = () => {
             </div>
 
             <div className=" flex justify-center">
-              <button onClick={prev} className=" p-4 text-white text-3xl hover:text-accent duration-200">
+              <button
+                onClick={prev}
+                className=" p-4 text-white text-3xl hover:text-accent duration-200"
+              >
                 <FaFastBackward></FaFastBackward>
               </button>
               {isPlaying ? (
-                <button onClick={pause} className=" p-4 text-white text-3xl hover:text-accent duration-200">
+                <button
+                  onClick={pause}
+                  className=" p-4 text-white text-3xl hover:text-accent duration-200"
+                >
                   <FaPause></FaPause>
                 </button>
               ) : (
-                <button onClick={play} className=" p-4 text-white text-3xl hover:text-accent duration-200">
+                <button
+                  onClick={play}
+                  className=" p-4 text-white text-3xl hover:text-accent duration-200"
+                >
                   <FaPlay></FaPlay>
                 </button>
               )}
-              <button onClick={next} className=" p-4 text-white text-3xl hover:text-accent duration-200">
+              <button
+                onClick={next}
+                className=" p-4 text-white text-3xl hover:text-accent duration-200"
+              >
                 <FaFastForward></FaFastForward>
               </button>
             </div>
           </div>
 
           {/* ------- QUEUE INFO ------- */}
-          <div className=" ml-4   lg:h-[30rem] p-2 mr-2 rounded-xl overflow-hidden">
-            <h1 className=" text-white text-2xl font-semibold mb-2 whitespace-nowrap">
-            Up Next ...
-            </h1>
+          <div className=" ml-4   lg:h-[30rem] p-2 mr-2 rounded-xl overflow-hidden flex-shrink">
+            {currentQueue?.queue && currentQueue.queue.length > 0 && (
+              <h1 className=" text-white text-2xl font-semibold mb-2 whitespace-nowrap">
+                Up Next ...
+              </h1>
+            )}
             {currentQueue?.queue?.map((song, i) => {
               return (
                 <p className=" text-white text-md font-light relative hover:font-bold duration-200">
@@ -306,9 +338,17 @@ export const Host = () => {
             })}
           </div>
           <div className=" w-96 h-full flex flex-col justify-center items-center">
-            <a className=" border-8 border-white rounded-md mt-4 mx-4 "  target = "_blank" href={`${host_name + window.location.pathname}#access_token=${accessToken}&queue_mode=true`}>
+            <a
+              className=" border-8 relative bottom-0 hover:bottom-2 duration-200 border-white rounded-md mt-4 mx-4 "
+              target="_blank"
+              href={`${
+                host_name + window.location.pathname
+              }#access_token=${accessToken}&queue_mode=true`}
+            >
               <QRCode
-                value={`${host_name + window.location.pathname}#access_token=${accessToken}&queue_mode=true`}
+                value={`${
+                  host_name + window.location.pathname
+                }#access_token=${accessToken}&queue_mode=true`}
                 className=" border-12 border-white"
                 size={256}
               ></QRCode>
