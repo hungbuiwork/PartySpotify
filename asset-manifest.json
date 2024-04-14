@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/PartySpotify/static/css/main.3aef5c4a.css",
-    "main.js": "/PartySpotify/static/js/main.d522c4fc.js",
+    "main.css": "/PartySpotify/static/css/main.d5d4421c.css",
+    "main.js": "/PartySpotify/static/js/main.fb3de1ee.js",
     "static/js/453.f00a0de0.chunk.js": "/PartySpotify/static/js/453.f00a0de0.chunk.js",
     "static/media/logo.svg": "/PartySpotify/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/PartySpotify/index.html",
-    "main.3aef5c4a.css.map": "/PartySpotify/static/css/main.3aef5c4a.css.map",
-    "main.d522c4fc.js.map": "/PartySpotify/static/js/main.d522c4fc.js.map",
+    "main.d5d4421c.css.map": "/PartySpotify/static/css/main.d5d4421c.css.map",
+    "main.fb3de1ee.js.map": "/PartySpotify/static/js/main.fb3de1ee.js.map",
     "453.f00a0de0.chunk.js.map": "/PartySpotify/static/js/453.f00a0de0.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3aef5c4a.css",
-    "static/js/main.d522c4fc.js"
+    "static/css/main.d5d4421c.css",
+    "static/js/main.fb3de1ee.js"
   ]
 }
