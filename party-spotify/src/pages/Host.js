@@ -233,8 +233,8 @@ export const Host = () => {
         </div>
       </div>
 
-      <div className=" lg:h-[100vh] flex flex-col justify-center border-2 lg:py-4">
-        <div className=" flex justify-between px-12">
+      <div className=" lg:h-[100vh] flex flex-col justify-center border-0 relative">
+        <div className=" flex justify-between px-12 lg_hidden">
           <h1 className=" text-white text-3xl font-bold  my-2 lg:hidden">
             Party<span className=" text-[#1DB954] font-extrabold">ify</span>
           </h1>
@@ -243,7 +243,7 @@ export const Host = () => {
             <span className=" font-bold"> {myInfo?.display_name}</span>
           </h1>
         </div>
-        <div className=" flex flex-col lg:flex-row justify-center bg-gradient-to-b lg:bg-gradient-to-r from-[#1DB954]/60 to-transparent p-6 lg:p-12 mx-12 lg:mx-32  rounded-2xl backdrop-blur-md">
+        <div className=" flex flex-col lg:flex-row justify-center bg-gradient-to-b lg:bg-gradient-to-r from-[#1DB954]/60 to-transparent p-6 lg:p-12 mx-12 lg:mx-32 rounded-2xl backdrop-blur-md">
           {/* ---------SONG INFO---------- */}
           <div className="  lg:w-[60vh]">
             {currentSong?.item?.album?.images?.[0] ? (

@@ -79,7 +79,7 @@ export const Queue = () => {
 
   useEffect(search, []);
   return (
-    <div className=" bg-[#0b0b0e] min-h-[100vh] border-2 px-8">
+    <div className=" bg-[#0b0b0e] min-h-[100vh] border-2 border-transparent px-8">
       <h1 className=" text-white text-center  text-6xl font-bold right-4 mb-4 mt-12">
         Party<span className=" text-[#1DB954] font-extrabold ">ify</span>
       </h1>
@@ -118,10 +118,10 @@ export const Queue = () => {
                 src={track?.album?.images?.[0]?.url}
                 className=" h-full"
               ></img>
-              <div className=" border-0 rounded-2 h-16 w-64 font-semibold  border-white flex flex-col justify-center mx-8 shrink-0">
+              <div className=" border-0 rounded-2 h-16 w-64 font-semibold  border-white flex flex-col justify-center mx-8 ">
                 <h1 className=" border-0 text-left">{track.name}</h1>
               </div>
-              <h2 className=" border-0 text-left font-thin">
+              <h2 className=" border-0 text-left font-thin hidden md:inline">
                 {" "}
                 {track?.artists.map((a) => a?.name).join(", ")}
               </h2>
